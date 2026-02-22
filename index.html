@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
         <meta charset="UTF-8" />
-        <title>Ink Spill</title>
+        <title>Ink Pot.</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="style.css" />
 </head>
@@ -10,8 +10,12 @@
     <div id="app">
         <header class="top-bar">
             <div class="brand">
-                <span class="logo-dot"></span>
-                <h1>Ink Spill</h1>
+                <!-- <img src="https://img.icons8.com/?size=100&id=CVWxobxmdKUX&format=png&color=000000" alt="Ink Pot" class="logo-icon" /> -->
+                <!-- <img src="https://img.icons8.com/?size=100&id=oXlA5v3u32jV&format=png&color=000000" alt="Ink Pot" class="logo-icon" /> -->
+                <!-- <img src="https://img.icons8.com/?size=100&id=Xwe6T9C8dhdI&format=png&color=000000" alt="Ink Pot" class="logo-icon" /> -->
+                <!-- <img src="https://img.icons8.com/?size=100&id=5lFPCbyWQ7OS&format=png&color=000000" alt="Ink Pot" class="logo-icon" /> -->
+                <img src="https://img.icons8.com/?size=100&id=hGBTBdUownyO&format=png&color=000000" alt="Ink Pot" class="logo-icon" />
+                <h1>Ink Pot.</h1>
             </div>
 
             <div class="palette-selector">
@@ -20,6 +24,9 @@
                     <option value="palette1">Soft Forest</option>
                     <option value="palette2">Cosmic Ink</option>
                     <option value="palette3">Rosewood</option>
+                    <option value="palette4">Candy Crush</option>
+                    <option value="palette5">Lemonade</option>
+                    <option value="palette6">River Mist</option>
                 </select>
             </div>
 
@@ -28,8 +35,9 @@
                 <select id="shapeSelect">
                     <option value="default">Default</option>
                     <option value="flower">Flower</option>
-                    <option value="rocket">Rocket</option>
-                    <option value="pen">Pen</option>
+                    <option value="film">Film</option>
+                    <option value="batman">Batman</option>
+                    <option value="blob">Blob</option>
                 </select>
             </div>
         </header>
@@ -41,19 +49,13 @@
                     <input
                         id="docTitle"
                         type="text"
-                        placeholder="Untitled piece"
+                        placeholder="Untitled"
                         class="title-input"
                     />
 
-                    <div class="mode-toggle">
-                        <label>
-                            <input type="radio" name="mode" value="plain" checked />
-                            Plain
-                        </label>
-                        <label>
-                            <input type="radio" name="mode" value="markdown" />
-                            Markdown
-                        </label>
+                    <div class="stats">
+                        <span id="wordCount">0 words</span>
+                        <span id="charCount">0 chars</span>
                     </div>
                 </div>
 

@@ -11,7 +11,16 @@
     --button-shape: 9999px; /* to be overridden by classes */
 }
 
+.logo-icon {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+}
+
+.stats { font-size: 0.8rem; color: var(--text-soft); }
+
 /* Palettes */
+/* Soft Forest */
 .palette1 {
     --bg: #d3c5cc;
     --bg-alt: #c5e2dd;
@@ -20,6 +29,7 @@
     --text-main: #1a1a1a;
 }
 
+/* Cosmic Ink */
 .palette2 {
     --bg: #f4f4f6;
     --bg-alt: #807FE1;
@@ -28,6 +38,7 @@
     --text-main: #f4f4f6;
 }
 
+/* Rosewood */
 .palette3 {
     --bg: #70242f;
     --bg-alt: #f9cde4;
@@ -36,22 +47,104 @@
     --text-main: #1c1012;
 }
 
-/* btn shapes */
+/* Candy Crush */
+.palette4 {
+    --bg: #155511;
+    --bg-alt: #ffc0cb;
+    --accent: #ff6347; 
+    /* de2a12; */
+    --accent-strong: #be83a4;
+    --text-main: #000;
+}
 
+/* Lemonade */
+.palette5 {
+    --bg: #155511;
+    --bg-alt: #ffff84;
+    --accent: #ff98aa;
+    --accent-strong: #be83a4;
+    --text-main: #000;
+}
+
+/* River Mist */
+.palette6 { 
+    --bg: #1e3a5f;
+    --bg-alt: #93c5fd;
+    --accent: #06b6d4;
+    --accent-strong: #0ea5e9;
+    --text-main: #ffffff;
+}
+
+
+.draft-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+}
+
+
+/* btn shapes */
 .shape-default .btn {
     border-radius: 8px;
 }
 
 .shape-flower .btn {
-    border-radius: 40% 60% 60% 40% / 50% 40% 60% 50%;
+    clip-path: shape(
+        from 20% 0%,
+        curve to 35% 5% with 27% 0%,
+        curve to 50% 0% with 42% 0%,
+        curve to 65% 5% with 58% 0%,
+        curve to 80% 0% with 73% 0%,
+        curve to 95% 30% with 100% 15%,
+        curve to 100% 50% with 100% 50%,
+        curve to 95% 70% with 100% 85%,
+        curve to 80% 100% with 88% 100%,
+        curve to 65% 95% with 73% 100%,
+        curve to 50% 100% with 58% 100%,
+        curve to 35% 95% with 42% 100%,
+        curve to 20% 100% with 27% 100%,
+        curve to 5% 70% with 0% 85%,
+        curve to 0% 50% with 0% 50%,
+        curve to 5% 30% with 0% 15%,
+        curve to 20% 0% with 12% 0%
+    );
 }
 
-.shape-rocket .btn {
-    border-radius: 50% 50% 40% 40%;
+.shape-film .btn {
+    clip-path: polygon(
+        0% 0%, 10% 0%, 10% 8%, 15% 8%, 15% 0%, 
+        35% 0%, 35% 8%, 40% 8%, 40% 0%, 
+        60% 0%, 60% 8%, 65% 8%, 65% 0%, 
+        85% 0%, 85% 8%, 90% 8%, 90% 0%, 100% 0%,
+        100% 100%, 90% 100%, 90% 92%, 85% 92%, 85% 100%, 
+        65% 100%, 65% 92%, 60% 92%, 60% 100%, 
+        40% 100%, 40% 92%, 35% 92%, 35% 100%, 
+        15% 100%, 15% 92%, 10% 92%, 10% 100%, 0% 100%
+    );
 }
 
-.shape-pen .btn {
-    border-radius: 0 15px 15px 0;
+.shape-batman .btn {
+    clip-path: shape(
+        from 0% 20%,
+        line to 35% 20%,
+        curve to 42% 0% with 38% 10%,
+        curve to 46% 18% with 44% 10%,
+        curve to 54% 18% with 50% 25%,
+        curve to 58% 0% with 56% 10%,
+        curve to 65% 20% with 62% 10%,
+        line to 100% 20%,
+        curve to 100% 75% with 90% 50%,
+        curve to 75% 90% with 85% 70%,
+        curve to 50% 100% with 65% 80%,
+        curve to 25% 90% with 35% 80%,
+        curve to 0% 75% with 15% 70%,
+        curve to 0% 20% with 10% 50%
+    );
+}
+
+.shape-blob .btn {
+    clip-path: shape(from 87.45% 45.02%, curve to 92.48% 56.45% with 90.99% 50.00%, curve to 92.05% 69.35% with 93.97% 62.91%, curve to 82.42% 77.15% with 90.14% 75.80%, curve to 71.01% 83.22% with 74.69% 78.49%, curve to 61.91% 91.53% with 67.33% 87.95%, curve to 49.74% 96.95% with 56.49% 95.12%, curve to 38.70% 91.46% with 42.99% 98.79%, curve to 25.99% 85.79% with 34.41% 84.13%, curve to 15.38% 80.54% with 17.56% 87.44%, curve to 14.30% 66.90% with 13.20% 73.65%, curve to 13.33% 55.08% with 15.41% 60.16%, curve to 11.20% 44.30% with 11.25% 50.00%, curve to 11.95% 32.32% with 11.14% 38.59%, curve to 16.84% 21.25% with 12.75% 26.06%, curve to 27.31% 15.38% with 20.92% 16.44%, curve to 38.83% 11.12% with 33.70% 14.32%, curve to 50.39% 5.23% with 43.95% 7.93%, curve to 62.85% 5.60% with 56.83% 2.53%, curve to 72.70% 14.03% with 68.88% 8.67%, curve to 79.11% 24.51% with 76.53% 19.39%, curve to 82.80% 34.84% with 81.69% 29.63%, curve to 87.45% 45.02% with 83.91% 40.04%);
 }
 
 *,
