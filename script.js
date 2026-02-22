@@ -4,18 +4,17 @@ const paletteSelect = document.getElementById('paletteSelect');
 const shapeSelect = document.getElementById('shapeSelect');
 
 function applyPalette(value) {
-    app.classList.remove('palette1', 'palette2', 'palette3');
+    app.classList.remove('palette1', 'palette2', 'palette3', 'palette4', 'palette5', 'palette6');
     app.classList.add(value);
 }
 
 function applyShape(value) {
     app.classList.remove(
         'shape-default',
-        'shape-circle',
         'shape-flower',
-        'shape-star',
-        'shape-rocket',
-        'shape-pen'
+        'shape-film',
+        'shape-batman',
+        'shape-blob'
     );
     app.classList.add(`shape-${value}`);
 }
@@ -38,14 +37,6 @@ const editor = document.getElementById('editor');
 const titleInput = document.getElementById('docTitle');
 const toolbarButtons = document.querySelectorAll('.toolbar .action-btn');
 const modeRadios = document.querySelectorAll('input[name="mode"]');
-
-let currentMode = 'plain';
-
-modeRadios.forEach(radio => {
-    radio.addEventListener('change', () => {
-        currentMode = document.querySelector('input[name="mode"]:checked').value;
-    });
-});
 
 function wrapSelection(before, after = before) {
     const start = editor.selectionStart;
@@ -83,13 +74,6 @@ function prefixLine(prefix) {
 toolbarButtons.forEach(btn => {
     btn.addEventListener('click', () => {
         const action = btn.dataset.action;
-        if (currentMode === 'plain' && action !== 'bold' && action !== 'italic') {
-            // in plain mode, only allow basic bold/italic markers to keep it simple
-            if (action === 'bold') wrapSelection('**', '**');
-            if (action === 'italic') wrapSelection('_', '_');
-            return;
-        }
-
         switch (action) {
             case 'bold':
                 wrapSelection('**', '**');
@@ -118,12 +102,24 @@ toolbarButtons.forEach(btn => {
     });
 });
 
+// stats, counters
+const wordCountEl = document.getElementById('wordCount');
+const charCountEl = document.getElementById('charCount');
+
+function updateStats() {
+    const text = editor.value;
+    const words = text.trim().split(/\s+/).filter(w => w.length).length;
+    wordCountEl.textContent = `${words} words`;
+    charCountEl.textContent = `${text.length} chars`;
+}
+
+editor.addEventListener('input', updateStats);
 
 // EXPORT helpers
 function getContentAndTitle() {
     const content = editor.value;
     let title = titleInput.value.trim();
-    if (!title) title = 'ink-spill';
+    if (!title) title = 'ink-pot';
     return { content, title };
 }
 
@@ -143,7 +139,7 @@ function downloadFile(filename, mime, text) {
 const emailBtn = document.getElementById('emailBtn');
 emailBtn.addEventListener('click', () => {
     const { content, title } = getContentAndTitle();
-    const subject = encodeURIComponent(`Ink Spill: ${title}`);
+    const subject = encodeURIComponent(`Ink Pot.: ${title}`);
     const body = encodeURIComponent(content);
     window.location.href = `mailto:?subject=${subject}&body=${body}`;
 });
@@ -346,5 +342,27 @@ document.addEventListener('visibilitychange', () => {
         }
     } else {
         floatingTimer.style.display = 'none';
+    }
+});
+
+// keyboard shortcuts
+document.addEventListener('keydown', e => {
+    if (e.target !== editor || e.ctrlKey === false) return;
+    let key = e.key;
+    if (e.key.length === 1) key = e.key.toLowerCase();
+    
+    const shortcuts = {
+        'b': () => wrapSelection('**', '**'),
+        'i': () => wrapSelection('_', '_'),
+        '1': () => prefixLine('# '),
+        '2': () => prefixLine('## '),
+        'l': () => prefixLine('- '),
+        '`': () => wrapSelection('`', '`'),
+        'q': () => prefixLine('> ')
+    };
+    
+    if (shortcuts[key]) {
+        e.preventDefault();
+        shortcuts[key]();
     }
 });
