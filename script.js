@@ -31,6 +31,38 @@ shapeSelect.addEventListener('change', e => {
 applyPalette('palette1');
 applyShape('default');
 
+// theme toggle (light/dark)
+const themeToggleBtn = document.getElementById('themeToggle');
+function toggleTheme() {
+    if (app.classList.contains('theme-dark')) {
+        app.classList.remove('theme-dark');
+        app.classList.add('theme-light');
+    } else {
+        app.classList.remove('theme-light');
+        app.classList.add('theme-dark');
+    }
+}
+if (themeToggleBtn) {
+    themeToggleBtn.addEventListener('click', toggleTheme);
+}
+
+// settings panel collapsible
+const settingsToggle = document.getElementById('settingsToggle');
+const topSettingsPanel = document.getElementById('topSettingsPanel');
+
+if (settingsToggle && topSettingsPanel) {
+    settingsToggle.addEventListener('click', () => {
+        const isHidden = topSettingsPanel.hasAttribute('hidden');
+        if (isHidden) {
+            topSettingsPanel.removeAttribute('hidden');
+            settingsToggle.setAttribute('aria-expanded', 'true');
+        } else {
+            topSettingsPanel.setAttribute('hidden', '');
+            settingsToggle.setAttribute('aria-expanded', 'false');
+        }
+    });
+}
+
 // editor & toolbar (rich-text)
 const editor = document.getElementById('editor');
 const titleInput = document.getElementById('docTitle');
@@ -125,7 +157,7 @@ editor.addEventListener('input', updateStats);
 function getContentAndTitle() {
     const content = editor.innerHTML;
     let title = titleInput.value.trim();
-    if (!title) title = 'ink-pot';
+    if (!title) title = 'Untitled';
     return { content, title };
 }
 
@@ -143,15 +175,17 @@ function downloadFile(filename, mime, text) {
 
 // Email
 const emailBtn = document.getElementById('emailBtn');
-emailBtn.addEventListener('click', () => {
-    const { content, title } = getContentAndTitle();
-    const tempEl = document.createElement('div');
-    tempEl.innerHTML = content;
-    const plain = tempEl.textContent || tempEl.innerText || '';
-    const subject = encodeURIComponent(`Ink Pot.: ${title}`);
-    const body = encodeURIComponent(plain);
-    window.location.href = `mailto:?subject=${subject}&body=${body}`;
-});
+if (emailBtn) {
+    emailBtn.addEventListener('click', () => {
+        const { content, title } = getContentAndTitle();
+        const tempEl = document.createElement('div');
+        tempEl.innerHTML = content;
+        const plain = tempEl.textContent || tempEl.innerText || '';
+        const subject = encodeURIComponent(`Ink Pot.: ${title}`);
+        const body = encodeURIComponent(plain);
+        window.location.href = `mailto:?subject=${subject}&body=${body}`;
+    });
+}
 
 // export buttons
 document.querySelectorAll('[data-export]').forEach(btn => {
@@ -195,37 +229,39 @@ document.querySelectorAll('[data-export]').forEach(btn => {
 
 // PDF (open print dialog)
 const pdfBtn = document.getElementById('pdfBtn');
-pdfBtn.addEventListener('click', () => {
-    const { content, title } = getContentAndTitle();
-    const w = window.open('', '_blank');
-    if (!w) return;
+if (pdfBtn) {
+    pdfBtn.addEventListener('click', () => {
+        const { content, title } = getContentAndTitle();
+        const w = window.open('', '_blank');
+        if (!w) return;
 
-    w.document.write(`
-        <html>
-        <head>
-            <meta charset="UTF-8">
-            <title>${title}</title>
-            <style>
-                body {
-                    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-                    padding: 2rem;
-                    white-space: normal;
-                }
-            </style>
-        </head>
-        <body>
-            <h1>${title}</h1>
-            <div>${content}</div>
-            <script>
-                window.onload = function() {
-                    window.print();
-                }
-            <\/script>
-        </body>
-        </html>
-    `);
-    w.document.close();
-});
+        w.document.write(`
+            <html>
+            <head>
+                <meta charset="UTF-8">
+                <title>${title}</title>
+                <style>
+                    body {
+                        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+                        padding: 2rem;
+                        white-space: normal;
+                    }
+                </style>
+            </head>
+            <body>
+                <h1>${title}</h1>
+                <div>${content}</div>
+                <script>
+                    window.onload = function() {
+                        window.print();
+                    }
+                <\/script>
+            </body>
+            </html>
+        `);
+        w.document.close();
+    });
+}
 
 // prevent accidental refresh
 let hasTyped = false;
@@ -252,8 +288,14 @@ const resetBtn = document.getElementById('resetTimerBtn');
 
 let isRunning = false;
 let isSprint = true;
-let remainingSeconds = 25 * 60;
+// let remainingSeconds = 25 * 60;
+let remainingSeconds = (parseInt(sprintInput.value, 10) || 25) * 60;
 let timerInterval = null;
+
+// floating mini timer
+const floatingTimer = document.getElementById('floatingTimer');
+const floatingLabel = document.getElementById('floatingLabel');
+const floatingClock = document.getElementById('floatingClock');
 
 function updateClockDisplay() {
     const mins = String(Math.floor(remainingSeconds / 60)).padStart(2, '0');
@@ -267,37 +309,36 @@ function updateLabels() {
     floatingLabel.textContent = timerLabel.textContent;
 }
 
+function configureSession() {
+    const sprintMin = parseInt(sprintInput.value, 10) || 25;
+    const breakMin = parseInt(breakInput.value, 10) || 5;
+    remainingSeconds = (isSprint ? sprintMin : breakMin) * 60;
+    updateClockDisplay();
+    updateLabels();
+}
+
 function startTimer() {
     if (isRunning) return;
-
-    if (!timerInterval && remainingSeconds <= 0) {
-        const sprintMin = parseInt(sprintInput.value, 10) || 25;
-        const breakMin = parseInt(breakInput.value, 10) || 5;
-        remainingSeconds = (isSprint ? sprintMin : breakMin) * 60;
-    }
-
     isRunning = true;
 
-    timerInterval = setInterval(() => {
-        remainingSeconds -= 1;
-        if (remainingSeconds <= 0) {
-            remainingSeconds = 0;
-            updateClockDisplay();
-            clearInterval(timerInterval);
-            timerInterval = null;
-            isRunning = false;
+    if (!timerInterval) {
+        timerInterval = setInterval(() => {
+            remainingSeconds -= 1;
+            if (remainingSeconds <= 0) {
+                remainingSeconds = 0;
+                updateClockDisplay();
+                clearInterval(timerInterval);
+                timerInterval = null;
+                isRunning = false;
 
-            // switch session, autostart next
-            isSprint = !isSprint;
-            const sprintMin = parseInt(sprintInput.value, 10) || 25;
-            const breakMin = parseInt(breakInput.value, 10) || 5;
-            remainingSeconds = (isSprint ? sprintMin : breakMin) * 60;
-            updateLabels();
-            startTimer();
-            return;
-        }
-        updateClockDisplay();
-    }, 1000);
+                // toggle sprint/break and reset, do NOT auto-start next sprint
+                isSprint = !isSprint;
+                configureSession();
+                return;
+            }
+            updateClockDisplay();
+        }, 1000);
+    }
 }
 
 function pauseTimer() {
@@ -311,34 +352,36 @@ function pauseTimer() {
 function resetTimer() {
     pauseTimer();
     isSprint = true;
-    const sprintMin = parseInt(sprintInput.value, 10) || 25;
-    remainingSeconds = sprintMin * 60;
-    updateLabels();
-    updateClockDisplay();
+    configureSession();
 }
 
-startBtn.addEventListener('click', () => {
-    if (!timerInterval && !isRunning && remainingSeconds <= 0) {
-        const sprintMin = parseInt(sprintInput.value, 10) || 25;
-        remainingSeconds = sprintMin * 60;
-        isSprint = true;
-        updateLabels();
-    }
-    startTimer();
+if (startBtn) {
+    startBtn.addEventListener('click', () => {
+        // reconfigure timer before starting
+        if (remainingSeconds <= 0 || !timerInterval) {
+            configureSession();
+        }
+        startTimer();
+    });
+}
+if (pauseBtn) {
+    pauseBtn.addEventListener('click', pauseTimer);
+}
+if (resetBtn) {
+    resetBtn.addEventListener('click', resetTimer);
+}
+
+[sprintInput, breakInput].forEach(input => {
+    if (!input) return;
+    input.addEventListener('change', () => {
+        if (!isRunning) configureSession();
+    });
 });
 
-pauseBtn.addEventListener('click', pauseTimer);
-resetBtn.addEventListener('click', resetTimer);
-
 // init pomodoro UI
-updateLabels();
-updateClockDisplay();
+configureSession();
 
-// floating mini timer
-const floatingTimer = document.getElementById('floatingTimer');
-const floatingLabel = document.getElementById('floatingLabel');
-const floatingClock = document.getElementById('floatingClock');
-
+// floating mini timer visibility
 document.addEventListener('visibilitychange', () => {
     if (document.hidden) {
         if (isRunning) {
@@ -351,22 +394,28 @@ document.addEventListener('visibilitychange', () => {
 
 // draft save/load (HTML content)
 const draftToggle = document.getElementById('draftToggle');
+const clearDraftBtn = document.getElementById('clearDraftBtn');
 const DRAFT_KEY = 'ink-pot-draft';
 
 function saveDraft() {
-    if (!draftToggle.checked) return;
+    if (!draftToggle || !draftToggle.checked) return;
     const data = {
         title: titleInput.value,
         content: editor.innerHTML,
         timestamp: Date.now()
     };
-    localStorage.setItem(DRAFT_KEY, JSON.stringify(data));
+    try {
+        localStorage.setItem(DRAFT_KEY, JSON.stringify(data));
+    } catch (e) {
+        // ignore storage errors
+    }
 }
 
 function loadDraft() {
-    if (!draftToggle.checked) return;
     try {
-        const data = JSON.parse(localStorage.getItem(DRAFT_KEY));
+        const raw = localStorage.getItem(DRAFT_KEY);
+        if (!raw) return;
+        const data = JSON.parse(raw);
         if (data) {
             titleInput.value = data.title || '';
             editor.innerHTML = data.content || '';
@@ -378,16 +427,23 @@ function loadDraft() {
 }
 
 // auto-save on input/change
-editor.addEventListener('input', saveDraft);
-titleInput.addEventListener('input', saveDraft);
-draftToggle.addEventListener('change', () => {
-    if (draftToggle.checked) {
-        loadDraft();
-        saveDraft();
-    } else {
+if (draftToggle) {
+    editor.addEventListener('input', saveDraft);
+    titleInput.addEventListener('input', saveDraft);
+
+    draftToggle.addEventListener('change', () => {
+        if (draftToggle.checked) {
+            // when turning on, immediately save current state
+            saveDraft();
+        }
+    });
+}
+
+if (clearDraftBtn) {
+    clearDraftBtn.addEventListener('click', () => {
         localStorage.removeItem(DRAFT_KEY);
-    }
-});
+    });
+}
 
 // load on init
 loadDraft();

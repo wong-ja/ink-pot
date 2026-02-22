@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <div id="app" class="palette1 shape-default">
+    <div id="app" class="palette1 shape-default theme-light">
         <header class="top-bar">
             <div class="brand">
                 <!-- <img src="https://img.icons8.com/?size=100&id=CVWxobxmdKUX&format=png&color=000000" alt="Ink Pot" class="logo-icon" /> -->
@@ -19,34 +19,58 @@
                 <h1>Ink Pot.</h1>
             </div>
 
-            <div class="palette-selector">
-                <label>Palette:</label>
-                <select id="paletteSelect">
-                    <option value="palette1">Cosmic Ink</option>
-                    <option value="palette2">Soft Forest</option>
-                    <option value="palette3">Rosewood</option>
-                    <option value="palette4">Candy Crush</option>
-                    <option value="palette5">Lemonade</option>
-                    <option value="palette6">River Mist</option>
-                </select>
-            </div>
+            <button class="btn top-settings-toggle" id="settingsToggle" aria-expanded="false">
+                ⚙️ Settings
+            </button>
 
-            <div class="shape-selector">
-                <label>Buttons:</label>
-                <select id="shapeSelect">
-                    <option value="default">Default</option>
-                    <option value="flower">Flower</option>
-                    <option value="film">Film</option>
-                    <option value="batman">Batman</option>
-                    <option value="blob">Blob</option>
-                </select>
-            </div>
 
-            <div class="draft-toggle">
-                <label>
-                    <input type="checkbox" id="draftToggle" />
-                    Save Draft
-                </label>
+            <div class="top-settings-panel" id="topSettingsPanel" hidden>
+                <div class="settings-row">
+                    <label for="paletteSelect">Palette:</label>
+                    <select id="paletteSelect">
+                        <option value="palette1">Cosmic Ink</option>
+                        <option value="palette2">Soft Forest</option>
+                        <option value="palette3">Rosewood</option>
+                        <option value="palette4">Candy Crush</option>
+                        <option value="palette5">Lemonade</option>
+                        <option value="palette6">River Mist</option>
+                    </select>
+                </div>
+
+                <div class="settings-row">
+                    <label for="shapeSelect">Buttons:</label>
+                    <select id="shapeSelect">
+                        <option value="default">Default</option>
+                        <option value="flower">Flower</option>
+                        <option value="film">Film</option>
+                        <option value="batman">Batman</option>
+                        <option value="blob">Blob</option>
+                    </select>
+                </div>
+
+                <div class="settings-row">
+                    <label for="themeToggle">Theme:</label>
+                    <button class="btn" id="themeToggle">☀️ / 🌑</button>
+                </div>
+
+                <div class="settings-row">
+                    <label>
+                        <input type="checkbox" id="draftToggle" />
+                        Save Draft (auto)
+                    </label>
+                    <button class="btn" id="clearDraftBtn">Clear Draft</button>
+                </div>
+
+                <!-- TODO: media player (placeholder) -->
+                <div class="media-player">
+                    <button class="btn media-btn" id="mediaPlayBtn" title="Open writing playlist (coming soon)" disabled>
+                        ♪ Focus Playlist
+                    </button>
+                    <!-- Eg.
+                        Spotify: https://open.spotify.com/playlist/ID
+                        YouTube: https://www.youtube.com/playlist?list=ID
+                    -->
+                </div>
             </div>
         </header>
 
@@ -63,15 +87,27 @@
                 </div>
 
                 <div class="toolbar">
-                    <button class="btn action-btn" data-action="undo" title="Ctrl+Z">↶</button>
-                    <button class="btn action-btn" data-action="redo" title="Ctrl+Y">↷</button>
-                    <button class="btn action-btn" data-action="bold" title="Ctrl+B">B</button>
-                    <button class="btn action-btn" data-action="italic" title="Ctrl+I">I</button>
-                    <button class="btn action-btn" data-action="underline" title="Ctrl+U">U</button>
-                    <button class="btn action-btn" data-action="h1" title="Ctrl+1">H1</button>
-                    <button class="btn action-btn" data-action="h2" title="Ctrl+2">H2</button>
-                    <button class="btn action-btn" data-action="bullet" title="Ctrl+L">•</button>
-                    <button class="btn action-btn" data-action="number" title="Ctrl+N">1.</button>
+                    <div class="toolbar-group">
+                        <button class="btn action-btn" data-action="undo" title="Ctrl+Z">↶</button>
+                        <button class="btn action-btn" data-action="redo" title="Ctrl+Y">↷</button>
+                        <button class="btn action-btn" data-action="bold" title="Ctrl+B">B</button>
+                        <button class="btn action-btn" data-action="italic" title="Ctrl+I">I</button>
+                        <button class="btn action-btn" data-action="underline" title="Ctrl+U">U</button>
+                        <button class="btn action-btn" data-action="h1" title="Ctrl+1">H1</button>
+                        <button class="btn action-btn" data-action="h2" title="Ctrl+2">H2</button>
+                        <button class="btn action-btn" data-action="bullet" title="Ctrl+L">•</button>
+                        <button class="btn action-btn" data-action="number" title="Ctrl+N">1.</button>
+                    </div>
+
+                    <div class="toolbar-pomodoro">
+                        <span id="timerLabel">Ready</span>
+                        <span id="timerClock">25:00</span>
+                        <button class="btn mini" id="startTimerBtn" title="Start / resume timer">▶</button>
+                        <button class="btn mini" id="pauseTimerBtn" title="Pause timer">⏸</button>
+                        <button class="btn mini" id="resetTimerBtn" title="Reset to sprint length">⟲</button>
+                        <input id="sprintInput" type="number" min="1" value="25" title="Sprint (min)" />
+                        <input id="breakInput" type="number" min="1" value="5" title="Break (min)" />
+                    </div>
                 </div>
 
                 <div
@@ -95,36 +131,6 @@
                         <button class="btn" id="pdfBtn">PDF (Print)</button>
                     </div>
                 </div>
-            </section>
-
-            <!-- Pomodoro -->
-            <section class="timer-section">
-                <h2>Pomodoro</h2>
-                <div class="timer-display">
-                    <span id="timerLabel">Ready</span>
-                    <span id="timerClock">25:00</span>
-                </div>
-
-                <div class="timer-settings">
-                    <div>
-                        <label for="sprintInput">Sprint (min)</label>
-                        <input id="sprintInput" type="number" min="1" value="25" />
-                    </div>
-                    <div>
-                        <label for="breakInput">Break (min)</label>
-                        <input id="breakInput" type="number" min="1" value="5" />
-                    </div>
-                </div>
-
-                <div class="timer-controls">
-                    <button class="btn primary" id="startTimerBtn">Start</button>
-                    <button class="btn" id="pauseTimerBtn">Pause</button>
-                    <button class="btn" id="resetTimerBtn">Reset</button>
-                </div>
-
-                <p class="timer-note">
-                    Hey! While your session is running, the timer will be ticking-- Keep an eye out!
-                </p>
             </section>
         </main>
     </div>
