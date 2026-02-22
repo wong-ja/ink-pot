@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="UTF-8" />
+        <title>Ink Spill</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <div id="app">
+        <header class="top-bar">
+            <div class="brand">
+                <span class="logo-dot"></span>
+                <h1>Ink Spill</h1>
+            </div>
+
+            <div class="palette-selector">
+                <label>Palette:</label>
+                <select id="paletteSelect">
+                    <option value="palette1">Soft Forest</option>
+                    <option value="palette2">Cosmic Ink</option>
+                    <option value="palette3">Rosewood</option>
+                </select>
+            </div>
+
+            <div class="shape-selector">
+                <label>Buttons:</label>
+                <select id="shapeSelect">
+                    <option value="default">Default</option>
+                    <option value="flower">Flower</option>
+                    <option value="rocket">Rocket</option>
+                    <option value="pen">Pen</option>
+                </select>
+            </div>
+        </header>
+
+        <main class="main-layout">
+            <!-- writing area -->
+            <section class="editor-section">
+                <div class="editor-header">
+                    <input
+                        id="docTitle"
+                        type="text"
+                        placeholder="Untitled piece"
+                        class="title-input"
+                    />
+
+                    <div class="mode-toggle">
+                        <label>
+                            <input type="radio" name="mode" value="plain" checked />
+                            Plain
+                        </label>
+                        <label>
+                            <input type="radio" name="mode" value="markdown" />
+                            Markdown
+                        </label>
+                    </div>
+                </div>
+
+                <div class="toolbar">
+                    <button class="btn action-btn" data-action="bold">B</button>
+                    <button class="btn action-btn" data-action="italic">I</button>
+                    <button class="btn action-btn" data-action="h1">H1</button>
+                    <button class="btn action-btn" data-action="h2">H2</button>
+                    <button class="btn action-btn" data-action="bullet">• List</button>
+                    <button class="btn action-btn" data-action="code">Code</button>
+                    <button class="btn action-btn" data-action="quote">“ Quote</button>
+                </div>
+
+                <textarea
+                    id="editor"
+                    placeholder="Spill your ink here..."
+                ></textarea>
+
+                <div class="export-row">
+                    <button class="btn primary" id="emailBtn">Email</button>
+
+                    <div class="export-group">
+                        <span>Export:</span>
+                        <button class="btn" data-export="txt">TXT</button>
+                        <button class="btn" data-export="md">MD</button>
+                        <button class="btn" data-export="html">HTML</button>
+                        <button class="btn" id="pdfBtn">PDF (Print)</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Pomodoro -->
+            <section class="timer-section">
+                <h2>Pomodoro</h2>
+                <div class="timer-display">
+                    <span id="timerLabel">Ready</span>
+                    <span id="timerClock">25:00</span>
+                </div>
+
+                <div class="timer-settings">
+                    <div>
+                        <label for="sprintInput">Sprint (min)</label>
+                        <input id="sprintInput" type="number" min="1" value="25" />
+                    </div>
+                    <div>
+                        <label for="breakInput">Break (min)</label>
+                        <input id="breakInput" type="number" min="1" value="5" />
+                    </div>
+                </div>
+
+                <div class="timer-controls">
+                    <button class="btn primary" id="startTimerBtn">Start</button>
+                    <button class="btn" id="pauseTimerBtn">Pause</button>
+                    <button class="btn" id="resetTimerBtn">Reset</button>
+                </div>
+
+                <p class="timer-note">
+                    Hey! While your session is running, the timer will be ticking-- Keep an eye out!
+                </p>
+            </section>
+        </main>
+    </div>
+
+    <!-- floating mini-timer (active when tab hidden) -->
+    <div id="floatingTimer">
+        <span id="floatingLabel">Sprint</span>
+        <span id="floatingClock">25:00</span>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

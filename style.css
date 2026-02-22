@@ -1,0 +1,330 @@
+:root {
+    /* default: palette1 */
+    --bg: #f4f4f6;
+    --bg-alt: #c5e2dd;
+    --accent: #3d5243;
+    --accent-strong: #be5050;
+    --text-main: #1a1a1a;
+    --text-soft: #555;
+    --border-soft: rgba(0, 0, 0, 0.1);
+    --radius: 10px;
+    --button-shape: 9999px; /* to be overridden by classes */
+}
+
+/* Palettes */
+.palette1 {
+    --bg: #d3c5cc;
+    --bg-alt: #c5e2dd;
+    --accent: #3d5243;
+    --accent-strong: #be5050;
+    --text-main: #1a1a1a;
+}
+
+.palette2 {
+    --bg: #f4f4f6;
+    --bg-alt: #807FE1;
+    --accent: #3D266D;
+    --accent-strong: #8636e0;
+    --text-main: #f4f4f6;
+}
+
+.palette3 {
+    --bg: #70242f;
+    --bg-alt: #f9cde4;
+    --accent: #ba7536;
+    --accent-strong: #cc331e;
+    --text-main: #1c1012;
+}
+
+/* btn shapes */
+
+.shape-default .btn {
+    border-radius: 8px;
+}
+
+.shape-flower .btn {
+    border-radius: 40% 60% 60% 40% / 50% 40% 60% 50%;
+}
+
+.shape-rocket .btn {
+    border-radius: 50% 50% 40% 40%;
+}
+
+.shape-pen .btn {
+    border-radius: 0 15px 15px 0;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text-main);
+}
+
+#app {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* top bar */
+.top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.7rem 1.5rem;
+    background: var(--bg-alt);
+    border-bottom: 1px solid var(--border-soft);
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.brand h1 {
+    font-size: 1.3rem;
+    margin: 0;
+}
+
+.palette-selector,
+.shape-selector {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+}
+
+select {
+    border-radius: 999px;
+    border: 1px solid var(--border-soft);
+    padding: 0.2rem 0.6rem;
+    background: #ffffffaa;
+}
+
+
+/* layout */
+.main-layout {
+    flex: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 3fr) minmax(280px, 1fr);
+    gap: 1rem;
+    padding: 1rem 1.5rem 1.5rem;
+}
+
+.editor-section,
+.timer-section {
+    background: #ffffffee;
+    border-radius: 12px;
+    padding: 1rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* writing editor */
+.editor-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+}
+
+.title-input {
+    flex: 1;
+    border: none;
+    border-bottom: 1px solid var(--border-soft);
+    font-size: 1.1rem;
+    padding: 0.2rem 0;
+    background: transparent;
+}
+
+.title-input:focus {
+    outline: none;
+    border-bottom-color: var(--accent);
+}
+
+.mode-toggle {
+    display: flex;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+}
+
+.toolbar {
+    margin-top: 0.75rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    border-radius: 999px;
+    padding: 0.25rem;
+    background: var(--bg-alt);
+}
+
+textarea#editor {
+    margin-top: 0.75rem;
+    flex: 1;
+    width: 100%;
+    resize: none;
+    padding: 0.8rem;
+    border-radius: 10px;
+    border: 1px solid var(--border-soft);
+    font-family: 'SF Mono', ui-monospace, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+    line-height: 1.5;
+    outline: none;
+}
+
+textarea#editor:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 1px var(--accent);
+}
+
+
+/* editor btns */
+.btn {
+    border: none;
+    background: #ffffff;
+    padding: 0.35rem 0.7rem;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: transform 0.08s ease, box-shadow 0.08s ease, background 0.1s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+    background: #fdfdfd;
+}
+
+.btn:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.btn.primary {
+    background: var(--accent);
+    color: #fff;
+}
+
+
+/* export */
+.export-row {
+    margin-top: 0.75rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.export-group {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+}
+
+
+/* timer */
+.timer-section h2 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+}
+
+.timer-display {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 0.7rem 0.8rem;
+    border-radius: 10px;
+    background: var(--bg-alt);
+    color: var(--text-main);
+    margin-bottom: 0.75rem;
+}
+
+#timerLabel {
+    font-size: 0.9rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+#timerClock {
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
+.timer-settings {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+}
+
+.timer-settings label {
+    font-size: 0.8rem;
+}
+
+.timer-settings input {
+    width: 60px;
+    padding: 0.25rem 0.35rem;
+    border-radius: 999px;
+    border: 1px solid var(--border-soft);
+}
+
+.timer-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.6rem;
+}
+
+.timer-note {
+    font-size: 0.8rem;
+    color: var(--text-soft);
+}
+
+/* floating mini timer */
+#floatingTimer {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    background: var(--accent-strong);
+    color: #fff;
+    padding: 0.5rem 0.8rem;
+    border-radius: 999px;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+    display: none;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8rem;
+    z-index: 1000;
+}
+
+#floatingLabel {
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+#floatingClock {
+    font-weight: 600;
+}
+
+
+/*  */
+@media (max-width: 880px) {
+    .main-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .timer-section {
+        order: -1;
+    }
+}
