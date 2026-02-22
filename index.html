@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-        <meta charset="UTF-8" />
-        <title>Ink Pot.</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8" />
+    <title>Ink Pot.</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="https://img.icons8.com/?size=100&id=hGBTBdUownyO&format=png&color=000000" type="image/png" sizes="100x100">
+    <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <div id="app">
+    <div id="app" class="palette1 shape-default">
         <header class="top-bar">
             <div class="brand">
                 <!-- <img src="https://img.icons8.com/?size=100&id=CVWxobxmdKUX&format=png&color=000000" alt="Ink Pot" class="logo-icon" /> -->
@@ -21,8 +22,8 @@
             <div class="palette-selector">
                 <label>Palette:</label>
                 <select id="paletteSelect">
-                    <option value="palette1">Soft Forest</option>
-                    <option value="palette2">Cosmic Ink</option>
+                    <option value="palette1">Cosmic Ink</option>
+                    <option value="palette2">Soft Forest</option>
                     <option value="palette3">Rosewood</option>
                     <option value="palette4">Candy Crush</option>
                     <option value="palette5">Lemonade</option>
@@ -40,6 +41,13 @@
                     <option value="blob">Blob</option>
                 </select>
             </div>
+
+            <div class="draft-toggle">
+                <label>
+                    <input type="checkbox" id="draftToggle" />
+                    Save Draft
+                </label>
+            </div>
         </header>
 
         <main class="main-layout">
@@ -52,33 +60,35 @@
                         placeholder="Untitled"
                         class="title-input"
                     />
+                </div>
 
+                <div class="toolbar">
+                    <button class="btn action-btn" data-action="undo" title="Ctrl+Z">↶</button>
+                    <button class="btn action-btn" data-action="redo" title="Ctrl+Y">↷</button>
+                    <button class="btn action-btn" data-action="bold" title="Ctrl+B">B</button>
+                    <button class="btn action-btn" data-action="italic" title="Ctrl+I">I</button>
+                    <button class="btn action-btn" data-action="underline" title="Ctrl+U">U</button>
+                    <button class="btn action-btn" data-action="h1" title="Ctrl+1">H1</button>
+                    <button class="btn action-btn" data-action="h2" title="Ctrl+2">H2</button>
+                    <button class="btn action-btn" data-action="bullet" title="Ctrl+L">•</button>
+                    <button class="btn action-btn" data-action="number" title="Ctrl+N">1.</button>
+                </div>
+
+                <div
+                    id="editor"
+                    class="rich-editor"
+                    contenteditable="true"
+                    placeholder="Spill your ink here..."
+                ></div>
+
+                <div class="export-row">
                     <div class="stats">
                         <span id="wordCount">0 words</span>
                         <span id="charCount">0 chars</span>
                     </div>
-                </div>
-
-                <div class="toolbar">
-                    <button class="btn action-btn" data-action="bold">B</button>
-                    <button class="btn action-btn" data-action="italic">I</button>
-                    <button class="btn action-btn" data-action="h1">H1</button>
-                    <button class="btn action-btn" data-action="h2">H2</button>
-                    <button class="btn action-btn" data-action="bullet">• List</button>
-                    <button class="btn action-btn" data-action="code">Code</button>
-                    <button class="btn action-btn" data-action="quote">“ Quote</button>
-                </div>
-
-                <textarea
-                    id="editor"
-                    placeholder="Spill your ink here..."
-                ></textarea>
-
-                <div class="export-row">
-                    <button class="btn primary" id="emailBtn">Email</button>
 
                     <div class="export-group">
-                        <span>Export:</span>
+                        <button class="btn" id="emailBtn">Email</button>
                         <button class="btn" data-export="txt">TXT</button>
                         <button class="btn" data-export="md">MD</button>
                         <button class="btn" data-export="html">HTML</button>
