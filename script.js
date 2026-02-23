@@ -19,10 +19,6 @@ function applyShape(value) {
     app.classList.add(`shape-${value}`);
 }
 
-paletteSelect.addEventListener('change', e => {
-    applyPalette(e.target.value);
-});
-
 shapeSelect.addEventListener('change', e => {
     applyShape(e.target.value);
 });
@@ -31,37 +27,105 @@ shapeSelect.addEventListener('change', e => {
 applyPalette('palette1');
 applyShape('default');
 
-// theme toggle (light/dark)
-const themeToggleBtn = document.getElementById('themeToggle');
-function toggleTheme() {
-    if (app.classList.contains('theme-dark')) {
-        app.classList.remove('theme-dark');
-        app.classList.add('theme-light');
-    } else {
-        app.classList.remove('theme-light');
-        app.classList.add('theme-dark');
-    }
-}
-if (themeToggleBtn) {
-    themeToggleBtn.addEventListener('click', toggleTheme);
+
+const paletteChips = document.querySelectorAll('.palette-chip[data-palette]');
+const customPalettePanel = document.getElementById('customPalettePanel');
+const customPaletteOpenBtn = document.querySelector('.palette-custom-open');
+
+paletteChips.forEach(chip => {
+    chip.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const value = chip.dataset.palette;
+        // clear curr style
+        app.style.removeProperty('--bg');
+        app.style.removeProperty('--bg-alt');
+        app.style.removeProperty('--accent');
+        app.style.removeProperty('--accent-strong');
+        app.style.removeProperty('--text-main');
+        // apply preset
+        app.classList.remove('palette1', 'palette2', 'palette3', 'palette4', 'palette5', 'palette6');
+        app.classList.add(value);
+        paletteChips.forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+    });
+});
+
+if (customPaletteOpenBtn && customPalettePanel) {
+    customPaletteOpenBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        customPalettePanel.hidden = !customPalettePanel.hidden;
+    });
 }
 
-// settings panel collapsible
+const customAccent = document.getElementById('customAccent');
+const customAccentStrong = document.getElementById('customAccentStrong');
+const customText = document.getElementById('customText');
+const applyCustomPaletteBtn = document.getElementById('applyCustomPaletteBtn');
+
+if (applyCustomPaletteBtn) {
+    applyCustomPaletteBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        app.classList.remove('palette1', 'palette2', 'palette3', 'palette4', 'palette5', 'palette6');
+        // clear previous style
+        app.style.removeProperty('--bg');
+        app.style.removeProperty('--bg-alt'); 
+        app.style.removeProperty('--accent');
+        app.style.removeProperty('--accent-strong');
+        app.style.removeProperty('--text-main');
+        // apply new style
+        app.style.setProperty('--bg-alt', customAccent ? customAccent.value : '#807FE1');
+        app.style.setProperty('--accent', customAccent ? customAccent.value : '#807FE1');
+        app.style.setProperty('--accent-strong', customAccentStrong ? customAccentStrong.value : '#8636e0');
+        app.style.setProperty('--text-main', customText ? customText.value : '#111827');
+    });
+}
+
+
 const settingsToggle = document.getElementById('settingsToggle');
 const topSettingsPanel = document.getElementById('topSettingsPanel');
+let isSettingsOpen = false;
 
 if (settingsToggle && topSettingsPanel) {
-    settingsToggle.addEventListener('click', () => {
-        const isHidden = topSettingsPanel.hasAttribute('hidden');
-        if (isHidden) {
+    settingsToggle.addEventListener('click', function(e) {
+        e.stopPropagation();        
+        isSettingsOpen = !isSettingsOpen;
+        
+        if (isSettingsOpen) {
+            topSettingsPanel.style.display = 'flex';
             topSettingsPanel.removeAttribute('hidden');
             settingsToggle.setAttribute('aria-expanded', 'true');
         } else {
+            topSettingsPanel.style.display = 'none';
             topSettingsPanel.setAttribute('hidden', '');
             settingsToggle.setAttribute('aria-expanded', 'false');
         }
     });
 }
+
+// close on outside click
+document.addEventListener('click', function(e) {
+    if (!isSettingsOpen) return;
+    const isClickInsidePanel = topSettingsPanel.contains(e.target);
+    const isClickOnToggle = settingsToggle.contains(e.target);
+    
+    if (!isClickInsidePanel && !isClickOnToggle) {
+        topSettingsPanel.style.display = 'none';
+        topSettingsPanel.setAttribute('hidden', '');
+        settingsToggle.setAttribute('aria-expanded', 'false');
+        isSettingsOpen = false;
+    }
+});
+
+// close on Escape
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && isSettingsOpen) {
+        topSettingsPanel.style.display = 'none';
+        topSettingsPanel.setAttribute('hidden', '');
+        settingsToggle.setAttribute('aria-expanded', 'false');
+        isSettingsOpen = false;
+    }
+});
+
 
 // editor & toolbar (rich-text)
 const editor = document.getElementById('editor');
@@ -69,6 +133,14 @@ const titleInput = document.getElementById('docTitle');
 const toolbarButtons = document.querySelectorAll('.toolbar .action-btn');
 const wordCountEl = document.getElementById('wordCount');
 const charCountEl = document.getElementById('charCount');
+const fontSelect = document.getElementById('fontSelect');
+
+if (fontSelect && editor) {
+    fontSelect.addEventListener('change', (e) => {
+        const font = e.target.value;
+        editor.style.fontFamily = font;
+    });
+}
 
 // toolbar, rich text formatting
 toolbarButtons.forEach(btn => {
@@ -108,6 +180,7 @@ toolbarButtons.forEach(btn => {
     });
 });
 
+
 // keyboard shortcuts
 document.addEventListener('keydown', e => {
     if (document.activeElement !== editor) return;
@@ -143,6 +216,7 @@ document.addEventListener('keydown', e => {
     }
 });
 
+
 // word/char count
 function updateStats() {
     const text = editor.textContent || '';
@@ -152,6 +226,7 @@ function updateStats() {
 }
 
 editor.addEventListener('input', updateStats);
+
 
 // EXPORT helpers
 function getContentAndTitle() {
@@ -272,10 +347,12 @@ editor.addEventListener('input', () => {
 
 window.addEventListener('beforeunload', e => {
     if (hasTyped) {
+        // allow refresh, but also allow saving draft to local
         e.preventDefault();
         e.returnValue = '';
     }
 });
+
 
 // pomodoro
 const timerLabel = document.getElementById('timerLabel');
@@ -288,25 +365,19 @@ const resetBtn = document.getElementById('resetTimerBtn');
 
 let isRunning = false;
 let isSprint = true;
-// let remainingSeconds = 25 * 60;
 let remainingSeconds = (parseInt(sprintInput.value, 10) || 25) * 60;
 let timerInterval = null;
-
-// floating mini timer
-const floatingTimer = document.getElementById('floatingTimer');
-const floatingLabel = document.getElementById('floatingLabel');
-const floatingClock = document.getElementById('floatingClock');
 
 function updateClockDisplay() {
     const mins = String(Math.floor(remainingSeconds / 60)).padStart(2, '0');
     const secs = String(remainingSeconds % 60).padStart(2, '0');
     timerClock.textContent = `${mins}:${secs}`;
-    floatingClock.textContent = timerClock.textContent;
 }
 
 function updateLabels() {
     timerLabel.textContent = isSprint ? 'Sprint' : 'Break';
-    floatingLabel.textContent = timerLabel.textContent;
+    app.classList.toggle('app-sprint', isSprint);
+    app.classList.toggle('app-break', !isSprint);
 }
 
 function configureSession() {
@@ -315,6 +386,12 @@ function configureSession() {
     remainingSeconds = (isSprint ? sprintMin : breakMin) * 60;
     updateClockDisplay();
     updateLabels();
+}
+
+function startNextPhaseAuto() {
+    isSprint = !isSprint;
+    configureSession();
+    startTimer();
 }
 
 function startTimer() {
@@ -330,10 +407,8 @@ function startTimer() {
                 clearInterval(timerInterval);
                 timerInterval = null;
                 isRunning = false;
-
-                // toggle sprint/break and reset, do NOT auto-start next sprint
-                isSprint = !isSprint;
-                configureSession();
+                // toggle sprint/break and reset, auto-start next sprint
+                startNextPhaseAuto();
                 return;
             }
             updateClockDisplay();
@@ -380,17 +455,6 @@ if (resetBtn) {
 
 // init pomodoro UI
 configureSession();
-
-// floating mini timer visibility
-document.addEventListener('visibilitychange', () => {
-    if (document.hidden) {
-        if (isRunning) {
-            floatingTimer.style.display = 'flex';
-        }
-    } else {
-        floatingTimer.style.display = 'none';
-    }
-});
 
 // draft save/load (HTML content)
 const draftToggle = document.getElementById('draftToggle');

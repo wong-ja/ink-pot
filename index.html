@@ -8,68 +8,100 @@
     <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <div id="app" class="palette1 shape-default theme-light">
+    <div id="app" class="palette1 shape-default">
         <header class="top-bar">
             <div class="brand">
-                <!-- <img src="https://img.icons8.com/?size=100&id=CVWxobxmdKUX&format=png&color=000000" alt="Ink Pot" class="logo-icon" /> -->
-                <!-- <img src="https://img.icons8.com/?size=100&id=oXlA5v3u32jV&format=png&color=000000" alt="Ink Pot" class="logo-icon" /> -->
-                <!-- <img src="https://img.icons8.com/?size=100&id=Xwe6T9C8dhdI&format=png&color=000000" alt="Ink Pot" class="logo-icon" /> -->
                 <!-- <img src="https://img.icons8.com/?size=100&id=5lFPCbyWQ7OS&format=png&color=000000" alt="Ink Pot" class="logo-icon" /> -->
                 <img src="https://img.icons8.com/?size=100&id=hGBTBdUownyO&format=png&color=000000" alt="Ink Pot" class="logo-icon" />
-                <h1>Ink Pot.</h1>
+                <h1 style="color:#000;">Ink Pot.</h1>
             </div>
 
-            <button class="btn top-settings-toggle" id="settingsToggle" aria-expanded="false">
+            <button class="btn primary top-settings-toggle" id="settingsToggle" aria-expanded="false" aria-controls="topSettingsPanel">
                 ⚙️ Settings
             </button>
 
 
             <div class="top-settings-panel" id="topSettingsPanel" hidden>
-                <div class="settings-row">
-                    <label for="paletteSelect">Palette:</label>
-                    <select id="paletteSelect">
-                        <option value="palette1">Cosmic Ink</option>
-                        <option value="palette2">Soft Forest</option>
-                        <option value="palette3">Rosewood</option>
-                        <option value="palette4">Candy Crush</option>
-                        <option value="palette5">Lemonade</option>
-                        <option value="palette6">River Mist</option>
-                    </select>
-                </div>
-
-                <div class="settings-row">
-                    <label for="shapeSelect">Buttons:</label>
-                    <select id="shapeSelect">
-                        <option value="default">Default</option>
-                        <option value="flower">Flower</option>
-                        <option value="film">Film</option>
-                        <option value="batman">Batman</option>
-                        <option value="blob">Blob</option>
-                    </select>
-                </div>
-
-                <div class="settings-row">
-                    <label for="themeToggle">Theme:</label>
-                    <button class="btn" id="themeToggle">☀️ / 🌑</button>
-                </div>
-
-                <div class="settings-row">
-                    <label>
-                        <input type="checkbox" id="draftToggle" />
-                        Save Draft (auto)
-                    </label>
-                    <button class="btn" id="clearDraftBtn">Clear Draft</button>
-                </div>
-
-                <!-- TODO: media player (placeholder) -->
-                <div class="media-player">
-                    <button class="btn media-btn" id="mediaPlayBtn" title="Open writing playlist (coming soon)" disabled>
-                        ♪ Focus Playlist
+                <div class="palette-list">
+                    <button class="palette-chip active" data-palette="palette1">
+                        <span class="palette-dot" style="background:#f4f4f6;"></span>
+                        <span class="palette-dot" style="background:#807FE1;"></span>
+                        <span class="palette-dot" style="background:#3D266D;"></span>
+                        Cosmic Ink
                     </button>
-                    <!-- Eg.
-                        Spotify: https://open.spotify.com/playlist/ID
-                        YouTube: https://www.youtube.com/playlist?list=ID
-                    -->
+                    <button class="palette-chip" data-palette="palette2">
+                        <span class="palette-dot" style="background:#036f4d;"></span>
+                        <span class="palette-dot" style="background:#c5e2dd;"></span>
+                        <span class="palette-dot" style="background:#3d5243;"></span>
+                        Soft Forest
+                    </button>
+                    <button class="palette-chip" data-palette="palette3">
+                        <span class="palette-dot" style="background:#ba7536;"></span>
+                        <span class="palette-dot" style="background:#f9cde4;"></span>
+                        <span class="palette-dot" style="background:#cc331e;"></span>
+                        Rosewood
+                    </button>
+                    <button class="palette-chip" data-palette="palette4">
+                        <span class="palette-dot" style="background:#ffc0cb;"></span>
+                        <span class="palette-dot" style="background:#ff4625;"></span>
+                        <span class="palette-dot" style="background:#ff6347;"></span>
+                        Candy Crush
+                    </button>
+                    <button class="palette-chip" data-palette="palette5">
+                        <span class="palette-dot" style="background:#ffff84;"></span>
+                        <span class="palette-dot" style="background:#ff98aa;"></span>
+                        <span class="palette-dot" style="background:#ff5ac2;"></span>
+                        Lemonade
+                    </button>
+                    <button class="palette-chip" data-palette="palette6">
+                        <span class="palette-dot" style="background:#06b6d4;"></span>
+                        <span class="palette-dot" style="background:#93c5fd;"></span>
+                        <span class="palette-dot" style="background:#0ea5e9;"></span>
+                        River Mist
+                    </button>
+                    <button class="palette-chip palette-custom-open">
+                        + Custom
+                    </button>
+                </div>
+
+                <div class="custom-palette-panel" id="customPalettePanel" hidden>
+                    <div class="custom-palette-grid">
+                        <label>Background<input type="color" id="customAccent" value="#807FE1" /></label>
+                        <label>Settings<input type="color" id="customAccentStrong" value="#8636e0" /></label>
+                        <label>Text<input type="color" id="customText" value="#111827" /></label>
+                        <button class="btn custom-apply-btn" id="applyCustomPaletteBtn">Apply</button>
+                    </div>
+                </div>
+
+                <div class="settings-row">
+                    <label for="shapeSelect" class="settings-label">Buttons</label>
+                    <div class="shape-select-wrap">
+                        <select id="shapeSelect">
+                            <option value="default">Default</option>
+                            <option value="flower">Flower</option>
+                            <option value="film">Film</option>
+                            <option value="batman">Batman</option>
+                            <option value="blob">Blob</option>
+                        </select>
+                    </div>
+
+                    <span>|</span>
+                    <span class="settings-label">Auto-saving.. </span>
+                    <div class="draft-actions">
+                        <button class="btn" id="clearDraftBtn" title="Clear saved draft and editor">🗑️ Clear</button>
+                    </div>
+
+                    <span>|</span>
+                    <!-- TODO: media player (placeholder) -->
+                    <div class="media-player">
+                        <button class="btn media-btn" id="mediaPlayBtn" title="Add writing playlist (coming soon)" disabled>
+                            ♪ Focus Playlist
+                        </button>
+                        <!-- Eg.
+                            Spotify: https://open.spotify.com/playlist/ID
+                            YouTube: https://www.youtube.com/playlist?list=ID
+                        -->
+                    </div>
                 </div>
             </div>
         </header>
@@ -90,13 +122,38 @@
                     <div class="toolbar-group">
                         <button class="btn action-btn" data-action="undo" title="Ctrl+Z">↶</button>
                         <button class="btn action-btn" data-action="redo" title="Ctrl+Y">↷</button>
-                        <button class="btn action-btn" data-action="bold" title="Ctrl+B">B</button>
-                        <button class="btn action-btn" data-action="italic" title="Ctrl+I">I</button>
-                        <button class="btn action-btn" data-action="underline" title="Ctrl+U">U</button>
-                        <button class="btn action-btn" data-action="h1" title="Ctrl+1">H1</button>
-                        <button class="btn action-btn" data-action="h2" title="Ctrl+2">H2</button>
-                        <button class="btn action-btn" data-action="bullet" title="Ctrl+L">•</button>
-                        <button class="btn action-btn" data-action="number" title="Ctrl+N">1.</button>
+                        <button class="btn action-btn" data-action="bold" title="Bold (Ctrl+B)">
+                            <span style="font-weight:700;">B</span>
+                        </button>
+                        <button class="btn action-btn" data-action="italic" title="Italic (Ctrl+I)">
+                            <span style="font-style:italic;">I</span>
+                        </button>
+                        <button class="btn action-btn" data-action="underline" title="Underline (Ctrl+U)">
+                            <span style="text-decoration:underline;">U</span>
+                        </button>
+                        <button class="btn action-btn" data-action="h1" title="Heading 1 (Ctrl+1)">
+                            <span style="font-size:1rem;font-weight:700;">H1</span>
+                        </button>
+                        <button class="btn action-btn" data-action="h2" title="Heading 2 (Ctrl+2)">
+                            <span style="font-size:0.9rem;font-weight:500;">H2</span>
+                        </button>
+                        <button class="btn action-btn" data-action="bullet" title="Bulleted list (Ctrl+L)">
+                            <span style="font-size:1rem;">•</span>
+                        </button>
+                        <button class="btn action-btn" data-action="number" title="Numbered list (Ctrl+N)">
+                            <span style="font-size:0.9rem;">1.</span>
+                        </button>
+                    </div>
+
+                    <div class="toolbar-font">
+                        <label for="fontSelect" class="toolbar-label">Font</label>
+                        <select id="fontSelect">
+                            <option value="'Georgia', serif" class="font-georgia">Georgia</option>
+                            <option value="'Times New Roman', serif" class="font-times">Times</option>
+                            <option value="'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" class="font-inter">Inter</option>
+                            <option value="'Arial', sans-serif" class="font-arial">Arial</option>
+                            <option value="'Courier New', monospace" class="font-courier">Courier</option>
+                        </select>
                     </div>
 
                     <div class="toolbar-pomodoro">
@@ -133,12 +190,6 @@
                 </div>
             </section>
         </main>
-    </div>
-
-    <!-- floating mini-timer (active when tab hidden) -->
-    <div id="floatingTimer">
-        <span id="floatingLabel">Sprint</span>
-        <span id="floatingClock">25:00</span>
     </div>
 
     <script src="script.js"></script>
