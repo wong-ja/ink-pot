@@ -8,7 +8,9 @@ Deployed Site: [Ink Pot.](https://ink-pot.vercel.app/)
 
 Demo:
 
-![]()
+![1](1.png)
+![2](2.png)
+![3](3.png)
 
 ## Overview 
 
@@ -48,26 +50,25 @@ git clone https://github.com/wong-ja/ink-pot.git
 ## Usage
 
 1. **Set up your space**
-   - (Optional) Open the Settings menu in the top bar to choose a color palette, button shape, and theme (light/dark).
-   - Turn on “Save Draft” if you want the browser to remember your current work.
+   - Open the Settings menu in the top bar to choose a color palette, button shape, or clear your draft.
+   - Use `🗑️ Clear` if you want the browser to discard your current work.
 
 2. **Write**
-   - Type directly into the main writing area.
-   - Use the toolbar buttons or keyboard shortcuts (Ctrl+B, Ctrl+I, Ctrl+U, Ctrl+Z, Ctrl+Y) for formatting.
+   - Type directly into the main writing area, and enter a title.
+   - Use the toolbar buttons or keyboard shortcuts (eg. `Ctrl+B`, `Ctrl+I`, `Ctrl+U`, `Ctrl+Z`, `Ctrl+Y`) for formatting.
 
 3. **Focus with the Pomodoro timer**
    - In the toolbar, set sprint and break lengths.
-   - Press play to start a sprint, pause if you need a break, and reset to go back to your default sprint length.
-   - When you switch tabs, a small floating timer appears to show the remaining time.
+   - [TODO] Press play to start a sprint, pause if you need a break, and reset to go back to your default sprint length.
 
 4. **Save or share your work**
-   - Export as `.txt`, `.md`, or `.html`, or use the PDF (print) option.
-   - Use the Email button to open an email draft with your text in the body.
+   - Export as `.txt`, `.md`, or `.html`, or use the **PDF (print)** option.
+   - Use the **Email** button to open an email draft with your text in the body.
 
 
 ## Features
 
-> [!IMPORTANT]
+> [!NOTE]
 > No backend, no auth, no database. Everything runs in the browser.
 
 ### Writing experience
@@ -80,13 +81,13 @@ git clone https://github.com/wong-ja/ink-pot.git
   - Formatting (e.g. Ctrl+B, Ctrl+I, Ctrl+U)
   - Undo / redo (Ctrl+Z / Ctrl+Y)
 - Live word and character count
+- Pomodoro timer (continuous looping)
 
 ### Safety and drafts
 
-- Optional “Save Draft” toggle:
-  - Saves title and content to `localStorage`
+- “🗑️ Clear” button:
+  - Title and contents are auto-saved to `localStorage`, in case of accidental refresh
   - Draft can be cleared from the settings panel
-- “Leave site?” warning when there is unsaved text, to help prevent accidental loss
 
 ### Export and sharing
 
@@ -103,20 +104,18 @@ git clone https://github.com/wong-ja/ink-pot.git
 - Compact Pomodoro timer embedded in the editor toolbar:
   - Adjustable sprint and break lengths
   - Start, pause, and reset controls
-- Floating mini‑timer:
-  - Appears when the tab is hidden, so you can still see the remaining time
 
 ### Look and feel
 
 - Palette presets to change the overall mood of the page
+- Customizable palette 
 - Button shape presets (e.g. default, playful shapes) for a more personal UI
-- Light/dark theme toggle
 
 ### Future ideas (not implemented yet)
 
 - “Focus Playlist” media button in the top bar:
   - Intended to open a public Spotify or YouTube playlist for background music
-  - The button is present but disabled in this version
+  - The button is present but non-functional in this version
 - Add optional session stats (e.g., number of sprints completed), progress/habit tracker.
 - More layout options for the editor (e.g., narrow column vs. full width).
-- Simple theme editor for custom palettes.
+- Floating or pop-out pomodoro timer when tab-switching or window-switching
