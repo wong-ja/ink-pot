@@ -60,8 +60,8 @@ git clone https://github.com/wong-ja/ink-pot.git
    - Use the toolbar buttons or keyboard shortcuts (eg. `Ctrl+B`, `Ctrl+I`, `Ctrl+U`, `Ctrl+Z`, `Ctrl+Y`) for formatting.
 
 3. **Focus with the Pomodoro timer**
-   - In the toolbar, set sprint and break lengths.
-   - [TODO] Press play to start a sprint, pause if you need a break, and reset to go back to your default sprint length.
+   - In the toolbar, set sprint and break lengths, which runs on a continuous loop.
+   - Press play to start a sprint, pause if you need a break, and reset to go back to your default sprint length.
 
 4. **Save or share your work**
    - Export as `.txt`, `.md`, or `.html`, or use the **PDF (print)** option.
