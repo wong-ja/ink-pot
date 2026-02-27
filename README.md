@@ -2,8 +2,6 @@
 
 **Ink Pot.** is a focused writing space with a built‑in Pomodoro timer and intuitive visual customization. It’s designed to make it a little easier to sit down, stay on track, and actually finish what you’re writing.
 
-This project was created for the [CodeSprout 2026 Hackathon](https://codesprout-hackathon-2026.devpost.com/).
-
 ## Demo
 
 Try it out! [https://ink-pot.vercel.app/](https://ink-pot.vercel.app/)
